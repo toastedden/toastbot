@@ -1,4 +1,4 @@
-// ToastBot version 1.0.3, Read-only - discord.js version 13.0.0
+// ToastBot version 1.0.4, Read-only - discord.js version 13.0.0
 // GitHub: https://github.com/Toasted-Den/ToastBot
 // Application ID: 918673030417379369
 
@@ -30,7 +30,7 @@ client.once('ready', () => {
 });
 
 // Event listener for when a new member joins the guild
-client.on("guildMemberAdd", member => {
+client.on("guildMemberAdd", async(member) => {
     let welcomeMessage = Math.floor(Math.random() * 30);  // Pick a random number between 0 and 29 to determine the user's welcome message   
     const welcomeChannel = member.guild.channels.cache.get('1048718163610701906'); // Get the welcome channel by its ID  
     const logChannel = member.guild.channels.cache.get('904137214965981255'); // Get the log channel by its ID
@@ -75,22 +75,25 @@ client.on("guildMemberAdd", member => {
             `<@${member.user.id}> has found us...?`
         ];
 
+        // Send message in #welcome channel, or send rare welcome message in the event the RNG fails
         welcomeChannel.send(messages[welcomeMessage] || `That's odd, it appears my random number generator failed. You've got an ultra rare welcome message <@${member.user.id}>!`);
 
         // Send message in #bot-logs that a user has joined the server.
-        logChannel.send(`<@${member.user.id}> just joined.`);
+        logChannel.send(`<@${member.user.id}> (\`${member.user.id}\`) has joined the server.`);
     }
 });
 
 // Event listener for when a member leaves the guild
-client.on('guildMemberRemove', member => {
+client.on('guildMemberRemove', async(member) => {
     const logChannel = member.guild.channels.cache.get('904137214965981255'); // Get the log channel by its ID
+    
     // Log the user leaving in the console
     console.log(`${member.user.username} has left the server.`);
+    
     // Check to make sure we're sending in the #bot-logs channel
     if (logChannel) {
         // Send a message saying a user has left.
-        logChannel.send(`${member.user.username} (${member.user.id}) has left the server.`);
+        logChannel.send(`**${member.user.username}** (\`${member.user.id}\`) has left the server.`);
     }
 });
 
