@@ -7,6 +7,7 @@ Commands, experimental features, and un-used packages have been stripped from th
 
 ## Development
 ToastBot was originally developed by Toasted Den in 2021, with help from sydneyn3308.
+Thank you to Belt_Buckle, eitanshaul, walterblack5, Kind Man, and jarr012 for helping with beta testing ToastBot.
 
 ## Hosting
 ToastBot is currently being hosted by our friends at [Nodium Hosting](https://nodiumhosting.com).
@@ -18,7 +19,7 @@ ToastBot is currently being hosted by our friends at [Nodium Hosting](https://no
 ## Getting Started
 1. **Clone the repository**
     ```bash
-    git clone https://github.com/Toasted-Den/ToastBot.git
+    git clone https://github.com/toastedden/ToastBot.git
     cd toastbot
     ```
 
