@@ -1,9 +1,27 @@
-// ToastBot version 1.0.4, Read-only - discord.js version 13.0.0
+// ToastBot version 1.0.5, Read-only - discord.js version 13.0.0
 // GitHub: https://github.com/Toasted-Den/ToastBot
 // Application ID: 918673030417379369
 
-// Import the 'discord.js' module
-const Discord = require('discord.js');
+// Import modules
+const fs = require('fs'); // Import the 'file system' module
+const path = require('path'); // Import the 'path' module
+const Discord = require('discord.js'); // Import the 'discord.js' module
+
+// Logging
+// Define the logs directory and log file path
+const logsDir = path.join(__dirname, '../logs'); // Set the logging path to ./logs
+const logFilePath = path.join(logsDir, 'toastbot.log'); // Set log file name to "toastbot.log"
+
+// Ensure the ./logs directory exists
+if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir);
+}
+
+// Function to write to the log file
+function writeLog(message) {
+    const logMessage = `[${new Date().toLocaleString()}] - ${message}\n`; // Add [date] at beginning of log entry, followed by the message
+    fs.appendFileSync(logFilePath, logMessage, 'utf8');  
+}
 
 // Load environment variables from a .env file
 require('dotenv').config();
@@ -19,24 +37,26 @@ const client = new Discord.Client({
 
 // Executions on startup
 client.once('ready', () => {
-    const now = new Date(); // get the current date and time
-    console.log(`ToastBot is online - ${now.toLocaleString()}`); // Log that the bot is online
+    // Logging
+    const logMessage = `ToastBot is online`; // Set the startup log message
+    console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log successful startup to console, [date] followed by logMessage
+    writeLog(logMessage); // Write successful startup to log file
+
+    // Set the bots rich-presence
+    // // Set rich-presence status to "Watching Toasted Den Videos"
+    // client.user.setActivity("Toasted Den Videos", { type: "WATCHING" });
     // Ensure bot status refreshes every hour
     // setInterval(function() {
-    //     client.user.setActivity("Toasted Den Videos", { type: "WATCHING" }); // Set bot status to "Watching Toasted Den Videos"
-    // }, 3600 * 1000);
-    // // Set initial status to "Watching Toasted Den Videos"
-    // client.user.setActivity("Toasted Den Videos", { type: "WATCHING" });
+    //     client.user.setActivity("Toasted Den Videos", { type: "WATCHING" }); // Set the bots rich presence to "Watching Toasted Den Videos"
+    // }, 3600 * 1000); // Set timer to one hour
 });
 
 // Event listener for when a new member joins the guild
-client.on("guildMemberAdd", async(member) => {
-    let welcomeMessage = Math.floor(Math.random() * 30);  // Pick a random number between 0 and 29 to determine the user's welcome message   
-    const welcomeChannel = member.guild.channels.cache.get('1048718163610701906'); // Get the welcome channel by its ID  
-    const logChannel = member.guild.channels.cache.get('904137214965981255'); // Get the log channel by its ID
-
-    // Log the user joining with their welcome message number in the console
-    console.log(`${member.user.username} has joined with welcome message #${welcomeMessage}`);
+client.on("guildMemberAdd", async (member) => {
+    // Define variables
+    let welcomeMessage = Math.floor(Math.random() * 30); // Pick a random number between 0 and 29 to determine the user's welcome message
+    const welcomeChannel = member.guild.channels.cache.get('1048718163610701906'); // Get the #welcome channel by its ID  
+    const botlogsChannel = member.guild.channels.cache.get('904137214965981255'); // Get the #bot-logs channel by its ID
 
     // Check to make sure we're sending in the #welcome channel
     if (welcomeChannel) {
@@ -72,28 +92,36 @@ client.on("guildMemberAdd", async(member) => {
             `Back there <@${member.user.id}>`,
             `Well I'll be a sonofabitch, <@${member.user.id}> is here!`,
             `Please enjoy each server channel equally, <@${member.user.id}>.`,
-            `<@${member.user.id}> has found us...?`
+            `<@${member.user.id}> has found us...`,
         ];
-
+        
+        // Send messages through Discord
         // Send message in #welcome channel, or send rare welcome message in the event the RNG fails
         welcomeChannel.send(messages[welcomeMessage] || `That's odd, it appears my random number generator failed. You've got an ultra rare welcome message <@${member.user.id}>!`);
-
         // Send message in #bot-logs that a user has joined the server.
-        logChannel.send(`<@${member.user.id}> (\`${member.user.id}\`) has joined the server.`);
+        botlogsChannel.send(`<@${member.user.id}> - UID: \`${member.user.id}\`\nhas joined the server with welcome message #${welcomeMessage}`);
+
+        // Logging
+        const logMessage = `${member.user.username} (UID: ${member.user.id}) has joined the server with welcome message #${welcomeMessage}`; // Set the user joining log message
+        console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log the user joining with their welcome message number in the console [date] followed by logMessage
+        writeLog(logMessage); // Write user joined info to the log file
     }
 });
 
 // Event listener for when a member leaves the guild
-client.on('guildMemberRemove', async(member) => {
-    const logChannel = member.guild.channels.cache.get('904137214965981255'); // Get the log channel by its ID
-    
-    // Log the user leaving in the console
-    console.log(`${member.user.username} has left the server.`);
-    
+client.on('guildMemberRemove', async (member) => {
+    // Define variables
+    const botlogsChannel = member.guild.channels.cache.get('904137214965981255'); // Get the #bot-logs channel by its ID
+
     // Check to make sure we're sending in the #bot-logs channel
-    if (logChannel) {
+    if (botlogsChannel) {
         // Send a message saying a user has left.
-        logChannel.send(`**${member.user.username}** (\`${member.user.id}\`) has left the server.`);
+        botlogsChannel.send(`**${member.user.username}** - UID: \`${member.user.id}\`\nhas left the server.`);
+
+        // Logging
+        const logMessage = `${member.user.username} (UID: ${member.user.id}) has left the server.`; // Set user has left log message
+        console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log the user leaving in the console
+        writeLog(logMessage); // Write user has left info to the log file
     }
 });
 
