@@ -1,4 +1,4 @@
-// ToastBot version 1.0.5, Read-only - discord.js version 13.0.0
+// ToastBot version 1.0.6, Read-only - discord.js version 13.0.0
 // GitHub: https://github.com/Toasted-Den/ToastBot
 // Application ID: 918673030417379369
 
@@ -39,7 +39,7 @@ const client = new Discord.Client({
 // Executions on startup
 client.once('ready', () => {
     // Logging
-    const logMessage = `ToastBot is online`; // Set the startup log message
+    const logMessage = `ToastBot is online (1.0.6)`; // Set the startup log message
     console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log successful startup to console, [date] followed by logMessage
     writeLog(logMessage); // Write successful startup to log file
 
