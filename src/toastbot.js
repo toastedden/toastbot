@@ -1,4 +1,4 @@
-// ToastBot version 1.0.6, Read-only - discord.js version 13.0.0
+// ToastBot version 1.0.7, Read-only - discord.js version 13.0.0
 // GitHub: https://github.com/toastedden/ToastBot
 // Application ID: 918673030417379369
 
@@ -39,7 +39,7 @@ const client = new Discord.Client({
 // Executions on startup
 client.once('ready', () => {
     // Logging
-    const logMessage = `ToastBot is online (1.0.6)`; // Set the startup log message
+    const logMessage = `ToastBot is online (1.0.7)`; // Set the startup log message
     console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log successful startup to console, [date] followed by logMessage
     writeLog(logMessage); // Write successful startup to log file
 
@@ -97,13 +97,17 @@ client.on("guildMemberAdd", async (member) => {
         ];
         
         // Send messages through Discord
-        // Send message in #welcome channel, or send rare welcome message in the event the RNG fails
+        // Send welcome message in #welcome channel, or send rare welcome message in the event the RNG fails
         welcomeChannel.send(messages[welcomeMessage] || `That's odd, it appears my random number generator failed. You've got an ultra rare welcome message <@${member.user.id}>!`);
-        // Send message in #bot-logs that a user has joined the server.
-        botlogsChannel.send(`<@${member.user.id}> - UID: \`${member.user.id}\`\nhas joined the server with welcome message #${welcomeMessage}`);
+        // Send the welcome message
+        welcomeChannel.send(selectedMessage);
+        // Deffine welcome message index variable and determine the welcome message index for logging
+        const welcomeMessageIndex = messages[welcomeMessage] ? welcomeMessage : -1;
+        // Send message in #bot-logs that a user has joined the server
+        botlogsChannel.send(`<@${member.user.id}> - UID: \`${member.user.id}\`\nhas joined the server with welcome message #${welcomeMessageIndex}`);
 
         // Logging
-        const logMessage = `${member.user.username} (UID: ${member.user.id}) has joined the server with welcome message #${welcomeMessage}`; // Set the user joining log message
+        const logMessage = `${member.user.username} (UID: ${member.user.id}) has joined the server with welcome message #${welcomeMessageIndex}`; // Set the user joining log message
         console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log the user joining with their welcome message number in the console [date] followed by logMessage
         writeLog(logMessage); // Write user joined info to the log file
     }
