@@ -1,6 +1,6 @@
 {
   "name": "toastbot",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "ToastBot is a Discord bot designed exclusively for the Toasted's Den Discord server.",
   "main": "src/toastbot.js",
   "scripts": {
