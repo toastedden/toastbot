@@ -1,5 +1,5 @@
 // ToastBot version 1.0.6, Read-only - discord.js version 13.0.0
-// GitHub: https://github.com/Toasted-Den/ToastBot
+// GitHub: https://github.com/toastedden/ToastBot
 // Application ID: 918673030417379369
 
 // Import modules
@@ -19,11 +19,11 @@ if (!fs.existsSync(logsDir)) {
 
 // Function to write to the log file
 function writeLog(message) {
-    const logMessage = `[${new Date().toLocaleString()}] - ${message}\n`; // Add [date] at beginning of log entry, followed by the message
-    fs.appendFileSync(logFilePath, logMessage, 'utf8');  
+    const logMessage = `[${new Date().toLocaleString()}] - ${message}\n`; // Prefix [date] at beginning of log entry, followed by the message
+    fs.appendFileSync(logFilePath, logMessage, 'utf8'); // Append new entries to the log file with UTF-8 encoding
 }
 
-// Load environment variables from a .env file
+// Load environment variables from the .env file
 require('dotenv').config();
 
 // Create a new Discord client instance with specific intents
@@ -43,10 +43,10 @@ client.once('ready', () => {
     console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log successful startup to console, [date] followed by logMessage
     writeLog(logMessage); // Write successful startup to log file
 
-    // Set the bots rich-presence
+    // // Set the bots rich-presence
     // // Set rich-presence status to "Watching Toasted Den Videos"
     // client.user.setActivity("Toasted Den Videos", { type: "WATCHING" });
-    // Ensure bot status refreshes every hour
+    // // Ensure bot status refreshes every hour
     // setInterval(function() {
     //     client.user.setActivity("Toasted Den Videos", { type: "WATCHING" }); // Set the bots rich presence to "Watching Toasted Den Videos"
     // }, 3600 * 1000); // Set timer to one hour
@@ -55,13 +55,13 @@ client.once('ready', () => {
 // Event listener for when a new member joins the guild
 client.on("guildMemberAdd", async (member) => {
     // Define variables
-    let welcomeMessage = Math.floor(Math.random() * 30); // Pick a random number between 0 and 29 to determine the user's welcome message
+    let welcomeMessage = Math.floor(Math.random() * 30); // Pick a random number between 0 and 29 (30) to determine which welcome message is pulled from the array
     const welcomeChannel = member.guild.channels.cache.get('1048718163610701906'); // Get the #welcome channel by its ID  
     const botlogsChannel = member.guild.channels.cache.get('904137214965981255'); // Get the #bot-logs channel by its ID
 
     // Check to make sure we're sending in the #welcome channel
     if (welcomeChannel) {
-        // Welcome Messages
+        // Welcome Messages - Array
         const messages = [
             `<@${member.user.id}> is here!`,
             `Salutations <@${member.user.id}>!`,
