@@ -1,13 +1,15 @@
 # ToastBot
 
-ToastBot is a Discord bot designed exclusively for the Toasted's Den Discord server.
+ToastBot is a lightweight Discord bot designed exclusively for the [Toasted's Den Discord server](https://discord.gg/vWE9vt5j7B).
 
-This repository contains the entire stripped down source code for ToastBot, whom is now operating in read-only mode. Commands, experimental features, and un-used packages have been stripped from the current version of ToastBot.
+This repository contains the streamlined source code for ToastBot, now operating in read-only mode. Commands, experimental features, and unused packages have been removed for simplicity.
+
+New members will receive a unique welcome message in the `#welcome` channel. Joins and leaves are logged in the `#bot-logs` channel and a local log file in `./logs`.
 
 ## Development
 ToastBot was originally developed by Toasted Den in 2021, with help from sydneyn3308.
 
-Thank you to Belt_Buckle, eitanshaul, walterblack5, Kind Man, and jarr012 for helping with beta testing ToastBot.
+Thank you to Belt_Buckle, eitanshaul, walterblack5, Kind Man, jarr012, and many others for helping with beta testing ToastBot.
 
 ## Hosting
 ToastBot is currently being hosted by our friends at [Nodium Hosting](https://nodiumhosting.com).
@@ -40,4 +42,4 @@ ToastBot is currently being hosted by our friends at [Nodium Hosting](https://no
     ```
 
 ## Contributing
-As this repository is currently archived, contributions are not accepted at this time.
+Pull requests are welcome, although ToastBot is quite bare-bones and may not require many additional features.
