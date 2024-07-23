@@ -31,7 +31,8 @@ const client = new Discord.Client({
     intents: [
         "GUILDS",             // Intent for guild-related events
         "GUILD_MESSAGES",     // Intent for guild message-related events
-        "GUILD_MEMBERS"       // Intent for guild member-related events
+        "GUILD_MEMBERS",      // Intent for guild member-related events
+        "GUILD_PRESENCES",    // Intent for guild presences-related events
     ]
 });
 
