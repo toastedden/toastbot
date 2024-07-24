@@ -14,7 +14,7 @@ require('dotenv').config();
 // Define the logs directory and log file path
 const logsDir = path.join(__dirname, '../' + process.env.LOG_PATH); // Set the logging path based on LOG_PATH from .env
 const logFilePath = path.join(logsDir, process.env.LOG_FILE + '.log'); // Set log file name based on LOG_FILE from .env
-// Ensure the ./logs directory exists
+// Ensure the log directory exists based on LOG_PATH from .env
 if (!fs.existsSync(logsDir)) {
     fs.mkdirSync(logsDir);
 }
@@ -24,7 +24,7 @@ function writeLog(message) {
     fs.appendFileSync(logFilePath, logMessage, 'utf8'); // Append new entries to the log file with UTF-8 encoding
 }
 
-// Create a new Discord client instance with specific intents
+// Create a new Discord client instance with select intents
 const client = new Discord.Client({
     intents: [
         "GUILDS",             // Intent for guild-related events
@@ -37,8 +37,8 @@ const client = new Discord.Client({
 // Executions on startup
 client.once('ready', async () => {
     // Logging
-    const botlogsChannel = await client.channels.fetch(process.env.BOT_LOGS_CHANNEL); // Fetch the #bot-logs channel once
-    // Send startup message to #bot-logs channel
+    const botlogsChannel = await client.channels.fetch(process.env.BOT_LOGS_CHANNEL); // Fetch the bot logs channel ID based on BOT_LOGS_CHANNEL from .env 
+    // Send startup message to botLogsChannel channel
     if (botlogsChannel) {
         botlogsChannel.send(`ToastBot has started up successfully and is online. (v${process.env.VERSION})\nCheck the nodes console logs for more details.`);
     }
@@ -61,10 +61,10 @@ client.once('ready', async () => {
 client.on("guildMemberAdd", async (member) => {
     // Define variables
     let welcomeMessage = Math.floor(Math.random() * 30); // Pick a random number between 0 and 29 (30) to determine which welcome message is pulled from the array
-    const welcomeChannel = await member.guild.channels.fetch(process.env.WELCOME_CHANNEL); // Fetch the #welcome channel
-    const botlogsChannel = await member.guild.channels.fetch(process.env.BOT_LOGS_CHANNEL); // Fetch the #bot-logs channel
+    const welcomeChannel = await member.guild.channels.fetch(process.env.WELCOME_CHANNEL); // Fetch the welcome channel ID based on WELCOME_CHANNEL from .env
+    const botlogsChannel = await member.guild.channels.fetch(process.env.BOT_LOGS_CHANNEL); // Fetch the bot logs channel ID based on BOT_LOGS_CHANNEL from .env
 
-    // Check to make sure we're sending in the #welcome channel
+    // Check to make sure we're sending in the welcomeChannel channel
     if (welcomeChannel) {
         // Welcome Messages - Array
         const messages = [
@@ -101,19 +101,19 @@ client.on("guildMemberAdd", async (member) => {
             `<@${member.user.id}> has found us...`,
         ];
         
-         // Send messages through Discord
-        // Send welcome message in #welcome channel, or send rare welcome message in the event the RNG fails
+        // Send messages through Discord
+        // Send welcome message in welcomeChannel channel, or send rare welcome message in the event the RNG fails
         welcomeChannel.send(messages[welcomeMessage] || `That's odd, it appears my random number generator failed. You've got an ultra rare welcome message <@${member.user.id}>!`);
         // Define welcome message index variable and determine the welcome message index for logging
         const welcomeMessageIndex = messages[welcomeMessage] ? welcomeMessage : -1;
-        // Send message in #bot-logs that a user has joined the server
+        // Send message in botlogsChannel channel that a user has joined the guild
         if (botlogsChannel) {
             botlogsChannel.send(`<@${member.user.id}> - \`UID: ${member.user.id}\`\nhas joined the server with welcome message #${welcomeMessageIndex}`);
         }
 
         // Logging
         const logMessage = `${member.user.username} (UID: ${member.user.id}) has joined the server with welcome message #${welcomeMessageIndex}`; // Set the user joining log message
-        console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log the user joining with their welcome message number in the console [date] followed by logMessage
+        console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log the user joining with their welcome message number in the console. [date] followed by logMessage
         writeLog(logMessage); // Write user joined info to the log file
     }
 });
@@ -121,11 +121,11 @@ client.on("guildMemberAdd", async (member) => {
 // Event listener for when a member leaves the guild
 client.on('guildMemberRemove', async (member) => {
     // Define variables
-    const botlogsChannel = member.guild.channels.cache.get(process.env.BOT_LOGS_CHANNEL); // Get the #bot-logs channel by its ID
+    const botlogsChannel = member.guild.channels.cache.get(process.env.BOT_LOGS_CHANNEL); // Get the bot logs channel ID based on BOT_LOGS_CHANNEL from .env
 
-    // Check to make sure we're sending in the #bot-logs channel
+    // Check to make sure we're sending in the botLogsChannel channel
     if (botlogsChannel) {
-        // Send a message saying a user has left.
+        // Send a message saying a user has left the guild
         botlogsChannel.send(`**${member.user.username}** - \`UID: ${member.user.id}\`\nhas left the server.`);
 
         // Logging
