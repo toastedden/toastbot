@@ -36,7 +36,7 @@ const client = new Discord.Client({
     ]
 });
 
-// Executions on startup
+// Executes on startup
 client.once('ready', async () => {
     // Logging
     // Define variables
@@ -48,6 +48,16 @@ client.once('ready', async () => {
     console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log successful startup to console, [date] followed by logMessage
     writeLog(logMessage); // Write successful startup to log file
 
+    // Jar Thread        
+    client.channels.fetch('923399499857166356').then(channel => {
+        channel.send("Jar Thread.");
+    })
+    setInterval(function() {
+        client.channels.fetch('923399499857166356').then(channel => {
+            channel.send("Jar Thread.");
+        })
+    }, Math.floor(Math.random() * (86400000 - 21600000) ) + 21600000;);
+    
     // // Set the bots rich-presence
     // // Set rich-presence status to "Watching Toasted Den Videos"
     // client.user.setActivity("Toasted Den Videos", { type: "WATCHING" });
