@@ -1,4 +1,4 @@
-// ToastBot version 1.0.9, Read-only - discord.js version 13.0.0
+// ToastBot - Read-only - discord.js version 13.0.0
 // GitHub: https://github.com/toastedden/ToastBot
 // Application ID: 918673030417379369
 
@@ -7,24 +7,22 @@ const fs = require('fs'); // Import the 'file system' module
 const path = require('path'); // Import the 'path' module
 const Discord = require('discord.js'); // Import the 'discord.js' module
 
+// Load environment variables from the .env file
+require('dotenv').config();
+
 // Logging
 // Define the logs directory and log file path
-const logsDir = path.join(__dirname, '../logs'); // Set the logging path to ./logs
-const logFilePath = path.join(logsDir, 'toastbot.log'); // Set log file name to "toastbot.log"
-
+const logsDir = path.join(__dirname, '../' + process.env.LOG_PATH); // Set the logging path based on LOG_PATH from .env
+const logFilePath = path.join(logsDir, process.env.LOG_FILE + '.log'); // Set log file name based on LOG_FILE from .env
 // Ensure the ./logs directory exists
 if (!fs.existsSync(logsDir)) {
     fs.mkdirSync(logsDir);
 }
-
 // Function to write to the log file
 function writeLog(message) {
     const logMessage = `[${new Date().toLocaleString()}] - ${message}\n`; // Prefix [date] at beginning of log entry, followed by the message
     fs.appendFileSync(logFilePath, logMessage, 'utf8'); // Append new entries to the log file with UTF-8 encoding
 }
-
-// Load environment variables from the .env file
-require('dotenv').config();
 
 // Create a new Discord client instance with specific intents
 const client = new Discord.Client({
@@ -39,12 +37,14 @@ const client = new Discord.Client({
 // Executions on startup
 client.once('ready', async () => {
     // Logging
-    // Define variables
-    const botlogsChannel = client.channels.cache.get('904137214965981255'); // Get the #bot-logs channel by its ID
+    const botlogsChannel = await client.channels.fetch(process.env.BOT_LOGS_CHANNEL); // Fetch the #bot-logs channel once
     // Send startup message to #bot-logs channel
-    botlogsChannel.send(`ToastBot has started up successfully and is online. (1.0.9)\nCheck the nodes console logs for more details.`);
+    if (botlogsChannel) {
+        botlogsChannel.send(`ToastBot has started up successfully and is online. (v${process.env.VERSION})\nCheck the nodes console logs for more details.`);
+    }
+
     // Log startup locally
-    const logMessage = `ToastBot is online (1.0.9)`; // Set the startup log message
+    const logMessage = `ToastBot is online (v${process.env.VERSION})`; // Set the startup log message
     console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log successful startup to console, [date] followed by logMessage
     writeLog(logMessage); // Write successful startup to log file
 
@@ -61,8 +61,8 @@ client.once('ready', async () => {
 client.on("guildMemberAdd", async (member) => {
     // Define variables
     let welcomeMessage = Math.floor(Math.random() * 30); // Pick a random number between 0 and 29 (30) to determine which welcome message is pulled from the array
-    const welcomeChannel = member.guild.channels.cache.get('1048718163610701906'); // Get the #welcome channel by its ID  
-    const botlogsChannel = member.guild.channels.cache.get('904137214965981255'); // Get the #bot-logs channel by its ID
+    const welcomeChannel = await member.guild.channels.fetch(process.env.WELCOME_CHANNEL); // Fetch the #welcome channel
+    const botlogsChannel = await member.guild.channels.fetch(process.env.BOT_LOGS_CHANNEL); // Fetch the #bot-logs channel
 
     // Check to make sure we're sending in the #welcome channel
     if (welcomeChannel) {
@@ -101,15 +101,15 @@ client.on("guildMemberAdd", async (member) => {
             `<@${member.user.id}> has found us...`,
         ];
         
-        // Send messages through Discord
+         // Send messages through Discord
         // Send welcome message in #welcome channel, or send rare welcome message in the event the RNG fails
         welcomeChannel.send(messages[welcomeMessage] || `That's odd, it appears my random number generator failed. You've got an ultra rare welcome message <@${member.user.id}>!`);
-        // Send the welcome message
-        welcomeChannel.send(selectedMessage);
-        // Deffine welcome message index variable and determine the welcome message index for logging
+        // Define welcome message index variable and determine the welcome message index for logging
         const welcomeMessageIndex = messages[welcomeMessage] ? welcomeMessage : -1;
         // Send message in #bot-logs that a user has joined the server
-        botlogsChannel.send(`<@${member.user.id}> - UID: \`${member.user.id}\`\nhas joined the server with welcome message #${welcomeMessageIndex}`);
+        if (botlogsChannel) {
+            botlogsChannel.send(`<@${member.user.id}> - \`UID: ${member.user.id}\`\nhas joined the server with welcome message #${welcomeMessageIndex}`);
+        }
 
         // Logging
         const logMessage = `${member.user.username} (UID: ${member.user.id}) has joined the server with welcome message #${welcomeMessageIndex}`; // Set the user joining log message
@@ -121,12 +121,12 @@ client.on("guildMemberAdd", async (member) => {
 // Event listener for when a member leaves the guild
 client.on('guildMemberRemove', async (member) => {
     // Define variables
-    const botlogsChannel = member.guild.channels.cache.get('904137214965981255'); // Get the #bot-logs channel by its ID
+    const botlogsChannel = member.guild.channels.cache.get(process.env.BOT_LOGS_CHANNEL); // Get the #bot-logs channel by its ID
 
     // Check to make sure we're sending in the #bot-logs channel
     if (botlogsChannel) {
         // Send a message saying a user has left.
-        botlogsChannel.send(`**${member.user.username}** - UID: \`${member.user.id}\`\nhas left the server.`);
+        botlogsChannel.send(`**${member.user.username}** - \`UID: ${member.user.id}\`\nhas left the server.`);
 
         // Logging
         const logMessage = `${member.user.username} (UID: ${member.user.id}) has left the server.`; // Set user has left log message
@@ -135,5 +135,5 @@ client.on('guildMemberRemove', async (member) => {
     }
 });
 
-// login using .env
+// Login using the token from .env
 client.login(process.env.TOKEN);
