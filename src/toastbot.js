@@ -121,7 +121,7 @@ client.on("guildMemberAdd", async (member) => {
 // Event listener for when a member leaves the guild
 client.on('guildMemberRemove', async (member) => {
     // Define variables
-    const botlogsChannel = member.guild.channels.cache.get(process.env.BOT_LOGS_CHANNEL); // Get the bot logs channel ID based on BOT_LOGS_CHANNEL from .env
+    const botlogsChannel = await member.guild.channels.fetch(process.env.BOT_LOGS_CHANNEL); // Get the bot logs channel ID based on BOT_LOGS_CHANNEL from .env
 
     // Check to make sure we're sending in the botLogsChannel channel
     if (botlogsChannel) {
