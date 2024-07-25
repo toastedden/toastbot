@@ -4,23 +4,25 @@ ToastBot is a lightweight Discord bot designed exclusively for the [Toasted's De
 
 This repository contains the streamlined source code for ToastBot, now operating in read-only mode. Commands, experimental features, and unused packages have been removed for simplicity.
 
-New members will receive a unique welcome message in the `#welcome` channel. Joins and leaves are logged in the `#bot-logs` channel and a local log file in `./logs`.
+New members will receive a unique welcome message in the specified welcome channel. Join and leave events are logged in the designated logs channel and a local log file located in `./logs`. Both the welcome channel and log settings are configured in the `.env` file.
 
 ## Development
-ToastBot was originally developed by Toasted Den in 2021, with help from sydneyn3308.
 
-Thank you to Belt_Buckle, eitanshaul, walterblack5, Kind Man, jarr012, and many others for helping with beta testing ToastBot.
+ToastBot was originally developed by *Toasted Den* in 2021, with contributions from *sydneyn3308*. Special thanks to *Belt_Buckle*, *eitanshaul*, *walterblack5*, *Kind Man*, *jarr012*, and others for their help with beta testing.
 
 ## Hosting
-ToastBot is currently being hosted by our friends at [Nodium Hosting](https://nodiumhosting.com).
+
+ToastBot is currently hosted by our friends at [Nodium Hosting](https://nodiumhosting.com).
 
 ## Self-hosting
+
 ### Prerequisites
 - Node.js (v16.11.0 or higher)
 - Discord.js (v13.0.0)
+- "Presence Update events" and "GUILD_MEMBERS events" **must** be enabled for your bot through the [Discord Developer Portal](https://discord.com/developers/applications)
 
 ### Getting Started
-1. **Clone the repository** (And edit channel IDs, variables, and assets appropriately)
+1. **Clone the repository**
     ```bash
     git clone https://github.com/toastedden/ToastBot.git
     cd ToastBot
@@ -31,7 +33,7 @@ ToastBot is currently being hosted by our friends at [Nodium Hosting](https://no
     npm install
     ```
 
-3. **Edit the `.env.example` file** with your bots token from the [Discord Developer Portal](https://discord.com/developers/applications)
+3. **Edit the `.env.example` file** with your guild's channel info, logging details, and bot token from the [Discord Developer Portal](https://discord.com/developers/applications). For detailed descriptions of each environment variable, refer to the comments within the `.env.example` file.
     ```
     TOKEN=your_discord_bot_token
     ```
@@ -42,4 +44,5 @@ ToastBot is currently being hosted by our friends at [Nodium Hosting](https://no
     ```
 
 ## Contributing
-Pull requests are welcome, although ToastBot is quite bare-bones and may not require many additional features.
+
+Pull requests are welcome, though ToastBot is currently quite minimal and may not need many additional features.
