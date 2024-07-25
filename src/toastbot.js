@@ -1,4 +1,4 @@
-// ToastBot - Read-only - discord.js version 13.0.0
+// ToastBot - discord.js version 13.17.1
 // GitHub: https://github.com/toastedden/ToastBot
 // Application ID: 918673030417379369
 
