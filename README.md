@@ -12,13 +12,13 @@ ToastBot was originally developed by *Toasted Den* in 2021, with contributions f
 
 ## Hosting
 
-ToastBot is currently hosted by our friends at [Nodium Hosting](https://nodiumhosting.com).
+ToastBot is currently being hosted by our friends at [Nodium Hosting](https://nodiumhosting.com).
 
 ## Self-hosting
 
 ### Prerequisites
 - Node.js (v16.11.0 or higher)
-- Discord.js (v13.0.0)
+- Discord.js (v13.17.1)
 - "Presence Update events" and "GUILD_MEMBERS events" **must** be enabled for your bot through the [Discord Developer Portal](https://discord.com/developers/applications)
 
 ### Getting Started
