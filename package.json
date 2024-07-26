@@ -1,6 +1,6 @@
 {
   "name": "toastbot",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "ToastBot is a Discord bot designed exclusively for the Toasted's Den Discord server.",
   "main": "src/toastbot.js",
   "scripts": {
@@ -8,16 +8,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Toasted-Den/ToastBot.git"
+    "url": "git+https://github.com/toastedden/ToastBot.git"
   },
   "author": "Toasted Den",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Toasted-Den/ToastBot/issues"
+    "url": "https://github.com/toastedden/ToastBot/issues"
   },
-  "homepage": "https://github.com/Toasted-Den/ToastBot#readme",
+  "homepage": "https://github.com/toastedden/ToastBot#readme",
   "dependencies": {
-    "discord.js": "^13.0.0",
+    "discord.js": "^13.17.1",
     "dotenv": "^16.4.5",
     "fs": "^0.0.1-security",
     "path": "^0.12.7"
