@@ -8,7 +8,7 @@ New members will receive a unique welcome message in the specified welcome chann
 
 ## Development
 
-ToastBot was originally developed by *Toasted Den* in 2021, with contributions from *sydneyn3308*. Special thanks to *Belt_Buckle*, *eitanshaul*, *walterblack5*, *Kind Man*, *jarr012*, and others for their help with beta testing.
+ToastBot was originally developed by *Toasted Den* in 2021, with significant contributions from *sydneyn3308*. Special thanks to *Belt_Buckle*, *eitanshaul*, *walterblack5*, *kindman_*, *jarr012*, and others for their help with beta testing.
 
 ## Hosting
 
@@ -17,18 +17,24 @@ ToastBot is currently being hosted by our friends at [Nodium Hosting](https://no
 ## Self-hosting
 
 ### Prerequisites
-- Node.js (v16.11.0 or higher)
-- Discord.js (v13.17.1)
-- "Presence Update events" and "GUILD_MEMBERS events" **must** be enabled for your bot through the [Discord Developer Portal](https://discord.com/developers/applications)
+
+- "Presence Update events" and "GUILD_MEMBERS events" **must** be enabled for your bot through the [Discord Developer Portal](https://discord.com/developers/applications).
 
 ### Getting Started
-1. **Clone the repository**
+
+#### Running ToastBot with `npm`
+
+Ensure you have the following installed:
+- [Node.js](https://nodejs.org/en/download/package-manager/current) (v16.11.0 or higher)
+- Discord.js (v13.17.1)
+
+1. **Clone the repository:**
     ```bash
     git clone https://github.com/toastedden/ToastBot.git
     cd ToastBot
     ```
 
-2. **Install dependencies**
+2. **Install dependencies:**
     ```bash
     npm install
     ```
@@ -38,10 +44,33 @@ ToastBot is currently being hosted by our friends at [Nodium Hosting](https://no
     TOKEN=your_discord_bot_token
     ```
 
-4. **Run the bot**
+4. **Run the bot:**
     ```bash
     node src/toastbot.js
     ```
+
+#### Running ToastBot with `Docker Compose`
+
+Ensure `Docker Engine` and `Docker Compose` are [installed on your system](https://docs.docker.com/compose/install/).
+
+1. **Clone the repository:**
+    ```bash
+    git clone https://github.com/toastedden/ToastBot.git
+    cd ToastBot
+    ```
+
+2. **Edit the `.env.example` file** with your guild's channel info, logging details, and bot token from the [Discord Developer Portal](https://discord.com/developers/applications). For detailed descriptions of each environment variable, refer to the comments within the `.env.example` file.
+    ```
+    TOKEN=your_discord_bot_token
+    ```
+
+3. **Run the bot with Docker Compose:**
+    ```bash
+    docker compose up --build -d
+    ```
+
+This will build the Docker image, install dependencies, and run the bot inside a Docker container named `ToastBot`.
+
 
 ## Contributing
 
