@@ -1,0 +1,7 @@
+services:
+  toastbot:
+    container_name: ToastBot
+    build: .
+    volumes:
+      - .:/app
+    restart: unless-stopped
