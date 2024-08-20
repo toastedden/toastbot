@@ -109,12 +109,12 @@ client.on("guildMemberAdd", async (member) => {
         // Send message in botlogsChannel channel that a user has joined the guild
         if (botlogsChannel) {
             botlogsChannel.send(`<@${member.user.id}> - \`UID: ${member.user.id}\`\nhas joined the server with welcome message #${welcomeMessageIndex}`);
-        }
 
-        // Logging
-        const logMessage = `${member.user.username} (UID: ${member.user.id}) has joined the server with welcome message #${welcomeMessageIndex}`; // Set the user joining log message
-        console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log the user joining with their welcome message number in the console. [date] followed by logMessage
-        writeLog(logMessage); // Write user joined info to the log file
+            // Logging
+            const logMessage = `${member.user.username} (UID: ${member.user.id}) has joined the server with welcome message #${welcomeMessageIndex}`; // Set the user joining log message
+            console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log the user joining with their welcome message number in the console. [date] followed by logMessage
+            writeLog(logMessage); // Write user joined info to the log file
+        }
     }
 });
 
