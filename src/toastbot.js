@@ -135,5 +135,21 @@ client.on('guildMemberRemove', async (member) => {
     }
 });
 
+// Event listener for when a message is sent in the guild
+client.on('messageCreate', (message) => {
+    // Check if the message is from the specified guild and not from a bot
+    if (message.guild.id === process.env.GUILD_ID && !message.author.bot) {
+        // Format message content to make multiline messages more readable
+        const messageContent = message.content
+            ? message.content.replace(/\n/g, '\\n') // Replace newlines with visible \n
+            : "<No Content>"; // Use a placeholder if message.content is empty
+
+        // Log format: AuthorUsername (AuthorUserID) - ChannelName - "MessageContents"
+        const logMessage = `MESSAGE_CREATED - User: ${message.author.username} (UID: ${message.author.id}) - Channel: #${message.channel.id} - "${messageContent}"`;
+        writeLog(logMessage); // Write the message to the log file
+    }
+});
+
+
 // Login using the token from .env
 client.login(process.env.TOKEN);
