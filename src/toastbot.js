@@ -3,24 +3,24 @@
 // Application ID: 918673030417379369
 
 // Import modules
-const fs = require('fs'); // Import the 'file system' module
-const path = require('path'); // Import the 'path' module
-const Discord = require('discord.js'); // Import the 'discord.js' module
+const fs = require('fs'); // Import the 'fs' (file system) module
+const path = require('path'); // Import the 'path' module for working with file and directory paths
+const Discord = require('discord.js'); // Import the 'discord.js' module for interacting with the Discord API
 
 // Load environment variables from the .env file
 require('dotenv').config();
 
 // Logging
-// Define the logs directory and log file path
-const logsDir = path.join(__dirname, '../' + process.env.LOG_PATH); // Set the logging path based on LOG_PATH from .env
-const logFilePath = path.join(logsDir, process.env.LOG_FILE + '.log'); // Set log file name based on LOG_FILE from .env
-// Ensure the log directory exists based on LOG_PATH from .env
+// Define the logs directory and log file path based on environment variables
+const logsDir = path.join(__dirname, '../' + process.env.LOG_PATH); // Set the logs directory based on LOG_PATH from .env
+const logFilePath = path.join(logsDir, process.env.LOG_FILE + '.log'); // Set the log file name based on LOG_FILE from .env
+// Ensure the logs directory exists
 if (!fs.existsSync(logsDir)) {
-    fs.mkdirSync(logsDir, { recursive: true });
+    fs.mkdirSync(logsDir, { recursive: true }); // Create the logs directory if it doesn't exist
 }
 // Function to write to the log file
 function writeLog(message) {
-    const logMessage = `[${new Date().toLocaleString()}] - ${message}\n`; // Prefix [date] at beginning of log entry, followed by the message
+    const logMessage = `[${new Date().toLocaleString()}] - ${message}\n`; // Prefix [date] at the beginning of log entry, followed by the message
     fs.appendFileSync(logFilePath, logMessage, 'utf8'); // Append new entries to the log file with UTF-8 encoding
 }
 
@@ -36,16 +36,17 @@ const client = new Discord.Client({
 
 // Executions on startup
 client.once('ready', async () => {
+    // Fetch the bot logs channel based on BOT_LOGS_CHANNEL from .env
+    const botlogsChannel = await client.channels.fetch(process.env.BOT_LOGS_CHANNEL);
     // Logging
-    const botlogsChannel = await client.channels.fetch(process.env.BOT_LOGS_CHANNEL); // Fetch the bot logs channel ID based on BOT_LOGS_CHANNEL from .env 
     // Send startup message to botLogsChannel channel
     if (botlogsChannel) {
         botlogsChannel.send(`ToastBot has started up successfully and is online. (v${process.env.VERSION})\nCheck the nodes console logs for more details.`);
     }
-
     // Log startup locally
+    // Log format: EVENT - Details (VERSION)
     const logMessage = `STARTUP - ToastBot is online (v${process.env.VERSION})`; // Set the startup log message
-    console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log successful startup to console, [date] followed by logMessage
+    console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log successful startup to the console, [date] followed by logMessage
     writeLog(logMessage); // Write successful startup to log file
 
     // // Set the bots rich-presence
@@ -59,12 +60,14 @@ client.once('ready', async () => {
 
 // Event listener for when a new member joins the guild
 client.on("guildMemberAdd", async (member) => {
-    // Define variables
-    let welcomeMessage = Math.floor(Math.random() * messages.length); // Pick a random number between 0 and 29 (30) to determine which welcome message is pulled from the array
-    const welcomeChannel = await member.guild.channels.fetch(process.env.WELCOME_CHANNEL); // Fetch the welcome channel ID based on WELCOME_CHANNEL from .env
-    const botlogsChannel = await member.guild.channels.fetch(process.env.BOT_LOGS_CHANNEL); // Fetch the bot logs channel ID based on BOT_LOGS_CHANNEL from .env
+    // Pick a random number between 0 and messages.length to determine which welcome message to use
+    let welcomeMessage = Math.floor(Math.random() * messages.length);
+    // Fetch the welcome channel based on WELCOME_CHANNEL from .env
+    const welcomeChannel = await member.guild.channels.fetch(process.env.WELCOME_CHANNEL);
+    // Fetch the bot logs channel based on BOT_LOGS_CHANNEL from .env
+    const botlogsChannel = await member.guild.channels.fetch(process.env.BOT_LOGS_CHANNEL);
 
-    // Check to make sure we're sending in the welcomeChannel channel
+     // Check to ensure the welcome message is sent in the correct channel
     if (welcomeChannel) {
         // Welcome Messages - Array
         const messages = [
@@ -101,73 +104,79 @@ client.on("guildMemberAdd", async (member) => {
             `<@${member.user.id}> has found us...`,
         ];
         
-        // Send messages through Discord
-        // Send welcome message in welcomeChannel channel, or send rare welcome message in the event the RNG fails
+        // Send welcome message in the welcomeChannel or a fallback message if RNG fails
         welcomeChannel.send(messages[welcomeMessage] || `That's odd, it appears my random number generator failed. You've got an ultra rare welcome message <@${member.user.id}>!`);
-        // Define welcome message index variable and determine the welcome message index for logging
+        // Determine the index of the welcome message for logging
         const welcomeMessageIndex = messages[welcomeMessage] ? welcomeMessage : -1;
-        // Send message in botlogsChannel channel that a user has joined the guild
+        
+        // Logging
         if (botlogsChannel) {
+              // Send a log message in the botlogsChannel that a user has joined the guild
             botlogsChannel.send(`<@${member.user.id}> - \`UID: ${member.user.id}\`\nhas joined the server with welcome message #${welcomeMessageIndex}`);
-
-            // Logging
-            const logMessage = `MEMBER_JOINED - User: ${member.user.username} (UID: ${member.user.id}) has joined the server with welcome message #${welcomeMessageIndex}`; // Set the user joining log message
-            console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log the user joining with their welcome message number in the console. [date] followed by logMessage
-            writeLog(logMessage); // Write user joined info to the log file
+            // Log the user joining event locally with the welcome message index
+            // Log event locally
+            // Log format: EVENT - User: AuthorUsername (AuthorUserID) - Details #welcomeMessageIndex
+            const logMessage = `MEMBER_JOINED - User: ${member.user.username} (UID: ${member.user.id}) has joined the server with welcome message #${welcomeMessageIndex}`;
+            console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log to console with date and logMessage
+            writeLog(logMessage); // Write the log entry to the log file
         }
     }
 });
 
 // Event listener for when a member leaves the guild
 client.on('guildMemberRemove', async (member) => {
-    // Define variables
-    const botlogsChannel = await member.guild.channels.fetch(process.env.BOT_LOGS_CHANNEL); // Get the bot logs channel ID based on BOT_LOGS_CHANNEL from .env
+    // Fetch the bot logs channel based on BOT_LOGS_CHANNEL from .env
+    const botlogsChannel = await member.guild.channels.fetch(process.env.BOT_LOGS_CHANNEL);
 
-    // Check to make sure we're sending in the botLogsChannel channel
+    // Logging
+    // Ensure the log message is sent to the correct channel
     if (botlogsChannel) {
-        // Send a message saying a user has left the guild
+        // Send a message in the botLogsChannel that a user has left the guild
         botlogsChannel.send(`**${member.user.username}** - \`UID: ${member.user.id}\`\nhas left the server.`);
-
-        // Logging
-        const logMessage = `MEMBER_LEFT - ${member.user.username} (UID: ${member.user.id}) has left the server`; // Set user has left log message
-        console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log the user leaving in the console
-        writeLog(logMessage); // Write user has left info to the log file
+        // Log event locally
+        // Log format: EVENT - User: AuthorUsername (AuthorUserID) - Details
+        const logMessage = `MEMBER_LEFT - User: ${member.user.username} (UID: ${member.user.id}) has left the server`; // Set the user leaving log message
+        console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log the user leaving in the console with date and logMessage
+        writeLog(logMessage); // Write user leaving info to the log file
     }
 });
 
 // Event listener for when a message is sent in the guild
 client.on('messageCreate', (message) => {
-    // Check if the message is from the specified guild and not from a bot
+    // Ensure the message is from the specified guild and not sent by a bot
     if (message.guild.id === process.env.GUILD_ID && !message.author.bot) {
         // Format message content to make multiline messages more readable
         const messageContent = message.content
             ? message.content.replace(/\n/g, '\\n') // Replace newlines with visible \n
             : "<No Content>"; // Use a placeholder if message.content is empty
 
-        // Log format: AuthorUsername (AuthorUserID) - ChannelName - "MessageContents"
+        // Logging
+        // Log the event locally
+        // Log format: EVENT - User: AuthorUsername (AuthorUserID) - Channel: #ChannelID - "MessageContents"
         const logMessage = `MESSAGE_CREATED - User: ${message.author.username} (UID: ${message.author.id}) - Channel: #${message.channel.id} - "${messageContent}"`;
-        writeLog(logMessage); // Write the message to the log file
+        writeLog(logMessage); // Write the logMessage to the log file
     }
 });
 
 // Event listener for when a message is deleted in the guild
 client.on('messageDelete', async (message) => {
     // Define variables
-    const botlogsChannel = await message.guild.channels.fetch(process.env.BOT_LOGS_CHANNEL); // Get the bot logs channel ID based on BOT_LOGS_CHANNEL from .env
+    const botlogsChannel = await message.guild.channels.fetch(process.env.BOT_LOGS_CHANNEL); // Fetch the bot logs channel ID based on BOT_LOGS_CHANNEL from .env
 
-    // Check if the message is from the specified guild
+    // Ensure the message is from the specified guild and not sent by a bot
     if (message.guild.id === process.env.GUILD_ID && !message.author.bot) {
         // Format message content to handle cases where the content might be empty
         const messageContent = message.content
-            ? message.content.replace(/\n/g, '\\n')
+            ? message.content.replace(/\n/g, '\\n') // Replace newlines with visible \n
             : "<No Content>"; // Use a placeholder if message.content is empty
 
-        // Check to make sure we're sending in the botLogsChannel channel
+        // Logging
+        // Verify that we're sending in the botLogsChannel
         if (botlogsChannel) {
-            // Send a message saying a user has deleted a message
+            // Send a message to the botLogsChannel that a user has deleted a message
             botlogsChannel.send(`<@${message.author.id}> - \`UID: ${message.author.id}\`\nhas deleted a message in <#${message.channel.id}>.\n\`\`\`${messageContent}\`\`\``);
-
-            // Logging
+            // Log event locally
+            // Log format: EVENT - User: AuthorUsername (AuthorUserID) - Channel: #ChannelID - "MessageContent"
             const logMessage = `MESSAGE_DELETED - User: ${message.author.username} (UID: ${message.author.id}) - Channel: #${message.channel.id} - "${messageContent}"`; // Set deleted message log message
             console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log the deleted message in the console
             writeLog(logMessage); // Write deleted message info to the log file
