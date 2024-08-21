@@ -60,7 +60,7 @@ client.once('ready', async () => {
 // Event listener for when a new member joins the guild
 client.on("guildMemberAdd", async (member) => {
     // Define variables
-    let welcomeMessage = Math.floor(Math.random() * 30); // Pick a random number between 0 and 29 (30) to determine which welcome message is pulled from the array
+    let welcomeMessage = Math.floor(Math.random() * messages.length); // Pick a random number between 0 and 29 (30) to determine which welcome message is pulled from the array
     const welcomeChannel = await member.guild.channels.fetch(process.env.WELCOME_CHANNEL); // Fetch the welcome channel ID based on WELCOME_CHANNEL from .env
     const botlogsChannel = await member.guild.channels.fetch(process.env.BOT_LOGS_CHANNEL); // Fetch the bot logs channel ID based on BOT_LOGS_CHANNEL from .env
 
