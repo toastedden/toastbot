@@ -1,7 +1,7 @@
 services:
   toastbot:
-    container_name: ToastBot
-    build: .
+    container_name: ToastBot # Name of the container
+    build: . # Build the Docker image from the current directory
     volumes:
-      - .:/app
-    restart: unless-stopped
+      - .:/app # Mount the current directory to /app in the container
+    restart: unless-stopped # Restart the container unless it is explicitly stopped
