@@ -16,7 +16,7 @@ const logsDir = path.join(__dirname, '../' + process.env.LOG_PATH); // Set the l
 const logFilePath = path.join(logsDir, process.env.LOG_FILE + '.log'); // Set log file name based on LOG_FILE from .env
 // Ensure the log directory exists based on LOG_PATH from .env
 if (!fs.existsSync(logsDir)) {
-    fs.mkdirSync(logsDir);
+    fs.mkdirSync(logsDir, { recursive: true });
 }
 // Function to write to the log file
 function writeLog(message) {
