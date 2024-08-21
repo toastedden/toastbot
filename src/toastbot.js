@@ -150,6 +150,30 @@ client.on('messageCreate', (message) => {
     }
 });
 
+// Event listener for when a message is deleted in the guild
+client.on('messageDelete', async (message) => {
+    // Define variables
+    const botlogsChannel = await message.guild.channels.fetch(process.env.BOT_LOGS_CHANNEL); // Get the bot logs channel ID based on BOT_LOGS_CHANNEL from .env
+
+    // Check if the message is from the specified guild
+    if (message.guild.id === process.env.GUILD_ID && !message.author.bot) {
+        // Format message content to handle cases where the content might be empty
+        const messageContent = message.content
+            ? message.content.replace(/\n/g, '\\n')
+            : "<No Content>"; // Use a placeholder if message.content is empty
+
+        // Check to make sure we're sending in the botLogsChannel channel
+        if (botlogsChannel) {
+            // Send a message saying a user has deleted a message
+            botlogsChannel.send(`<@${message.author.id}> - \`UID: ${message.author.id}\`\nhas deleted a message in <#${message.channel.id}>.\n\`\`\`${messageContent}\`\`\``);
+
+            // Logging
+            const logMessage = `MESSAGE_DELETED - User: ${message.author.username} (UID: ${message.author.id}) - Channel: #${message.channel.id} - "${messageContent}"`; // Set deleted message log message
+            console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log the deleted message in the console
+            writeLog(logMessage); // Write deleted message info to the log file
+        }
+    }
+});
 
 // Login using the token from .env
 client.login(process.env.TOKEN);
