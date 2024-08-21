@@ -44,7 +44,7 @@ client.once('ready', async () => {
     }
 
     // Log startup locally
-    const logMessage = `ToastBot is online (v${process.env.VERSION})`; // Set the startup log message
+    const logMessage = `STARTUP - ToastBot is online (v${process.env.VERSION})`; // Set the startup log message
     console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log successful startup to console, [date] followed by logMessage
     writeLog(logMessage); // Write successful startup to log file
 
@@ -111,7 +111,7 @@ client.on("guildMemberAdd", async (member) => {
             botlogsChannel.send(`<@${member.user.id}> - \`UID: ${member.user.id}\`\nhas joined the server with welcome message #${welcomeMessageIndex}`);
 
             // Logging
-            const logMessage = `${member.user.username} (UID: ${member.user.id}) has joined the server with welcome message #${welcomeMessageIndex}`; // Set the user joining log message
+            const logMessage = `MEMBER_JOINED - User: ${member.user.username} (UID: ${member.user.id}) has joined the server with welcome message #${welcomeMessageIndex}`; // Set the user joining log message
             console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log the user joining with their welcome message number in the console. [date] followed by logMessage
             writeLog(logMessage); // Write user joined info to the log file
         }
@@ -129,7 +129,7 @@ client.on('guildMemberRemove', async (member) => {
         botlogsChannel.send(`**${member.user.username}** - \`UID: ${member.user.id}\`\nhas left the server.`);
 
         // Logging
-        const logMessage = `${member.user.username} (UID: ${member.user.id}) has left the server.`; // Set user has left log message
+        const logMessage = `MEMBER_LEFT - ${member.user.username} (UID: ${member.user.id}) has left the server`; // Set user has left log message
         console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log the user leaving in the console
         writeLog(logMessage); // Write user has left info to the log file
     }
