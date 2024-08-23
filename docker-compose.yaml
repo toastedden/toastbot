@@ -1,6 +1,8 @@
 services:
   toastbot:
     container_name: ToastBot # Name of the container
+    environment:
+      - TZ=Etc/UTC
     build: . # Build the Docker image from the current directory
     volumes:
       - .:/app # Mount the current directory to /app in the container
