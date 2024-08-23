@@ -60,14 +60,12 @@ client.once('ready', async () => {
 
 // Event listener for when a new member joins the guild
 client.on("guildMemberAdd", async (member) => {
-    // Pick a random number between 0 and messages.length to determine which welcome message to use
-    let welcomeMessage = Math.floor(Math.random() * messages.length);
     // Fetch the welcome channel based on WELCOME_CHANNEL from .env
     const welcomeChannel = await member.guild.channels.fetch(process.env.WELCOME_CHANNEL);
     // Fetch the bot logs channel based on BOT_LOGS_CHANNEL from .env
     const botlogsChannel = await member.guild.channels.fetch(process.env.BOT_LOGS_CHANNEL);
 
-     // Check to ensure the welcome message is sent in the correct channel
+    // Check to ensure the welcome message is sent in the correct channel
     if (welcomeChannel) {
         // Welcome Messages - Array
         const messages = [
@@ -103,6 +101,8 @@ client.on("guildMemberAdd", async (member) => {
             `Please enjoy each server channel equally, <@${member.user.id}>.`,
             `<@${member.user.id}> has found us...`,
         ];
+        // Pick a random number between 0 and messages.length to determine which welcome message to use
+        let welcomeMessage = Math.floor(Math.random() * messages.length);
         
         // Send welcome message in the welcomeChannel or a fallback message if RNG fails
         welcomeChannel.send(messages[welcomeMessage] || `That's odd, it appears my random number generator failed. You've got an ultra rare welcome message <@${member.user.id}>!`);
