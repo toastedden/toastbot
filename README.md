@@ -4,7 +4,7 @@ ToastBot is a lightweight Discord bot designed exclusively for the [Toasted's De
 
 This repository contains the streamlined source code for ToastBot, now operating in read-only mode. Commands, experimental features, and unused packages have been removed for simplicity.
 
-New members will receive a unique welcome message in the specified welcome channel. Join and leave events are logged in the designated logs channel and a local log file located in `./logs`. Both the welcome channel and log settings are configured in the `.env` file.
+New members will receive a unique welcome message in the specified welcome channel. Join, Leave, and Message Delete events are logged in the designated logs channel and a local log file located in `./logs`. Both the welcome channel and log settings are configured in the `.env` file.
 
 ## Development
 
@@ -18,15 +18,14 @@ ToastBot is currently being hosted by our friends at [Nodium Hosting](https://no
 
 ### Prerequisites
 
-- "Presence Update events" and "GUILD_MEMBERS events" **must** be enabled for your bot through the [Discord Developer Portal](https://discord.com/developers/applications).
+- "Presence Update Events", "GUILD_MEMBERS, and "Message Contents" **must** be enabled for your bot through the [Discord Developer Portal](https://discord.com/developers/applications).
 
 ### Getting Started
 
-#### Running ToastBot with `npm`
+#### Running ToastBot with **Node.js**
 
 Ensure you have the following installed:
 - [Node.js](https://nodejs.org/en/download/package-manager/current) (v16.11.0 or higher)
-- Discord.js (v13.17.1)
 
 1. **Clone the repository:**
     ```bash
@@ -49,9 +48,9 @@ Ensure you have the following installed:
     node src/toastbot.js
     ```
 
-#### Running ToastBot with `Docker Compose`
+#### Running ToastBot with **Docker Compose**
 
-Ensure `Docker Engine` and `Docker Compose` are [installed on your system](https://docs.docker.com/compose/install/).
+Ensure **Docker Engine** and **Docker Compose** are [installed on your system](https://docs.docker.com/compose/install/).
 
 1. **Clone the repository:**
     ```bash
@@ -64,7 +63,7 @@ Ensure `Docker Engine` and `Docker Compose` are [installed on your system](https
     TOKEN=your_discord_bot_token
     ```
 
-3. **Run the bot with Docker Compose:**
+3. **Run the bot with Docker Compose in detached mode:**
     ```bash
     docker compose up --build -d
     ```
