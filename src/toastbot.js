@@ -57,6 +57,14 @@ client.once('ready', async () => {
     // setInterval(function() {
     //     client.user.setActivity("Toasted Den Videos", { type: "WATCHING" }); // Set the bots rich presence to "Watching Toasted Den Videos"
     // }, 3600 * 1000); // Set timer to one hour
+    // // For custom rich-presence:
+    // client.user.setActivity(`i see you`, {type: 4});
+    // Playing: 0 = 0
+    // Streaming: 1 = 1
+    // Listening: 2 = 2
+    // Watching: 3 = 3
+    // Custom: 4 = 4
+    // Competing: 5 = 5
 });
 
 // Event listener for when a new member joins the guild
