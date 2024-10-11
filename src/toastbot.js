@@ -100,7 +100,7 @@ client.on("guildMemberAdd", async (member) => {
             `Back there <@${member.user.id}>`,
             `Well I'll be a sonofabitch, <@${member.user.id}> is here!`,
             `Please enjoy each server channel equally, <@${member.user.id}>.`,
-            `<@${member.user.id}> has found us...`,
+            `<@${member.user.id}> has found us...`
         ];
         // Pick a random number between 0 and messages.length to determine which welcome message to use
         let welcomeMessage = Math.floor(Math.random() * messages.length);
