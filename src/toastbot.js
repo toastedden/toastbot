@@ -1,6 +1,5 @@
 // ToastBot - discord.js version 13.17.1
 // GitHub: https://github.com/toastedden/ToastBot
-// Application ID: 918673030417379369
 
 // Import modules
 const fs = require('fs'); // Import the 'fs' (file system) module
@@ -13,7 +12,9 @@ require('dotenv').config();
 // Logging
 // Define the logs directory and log file path based on environment variables
 const logsDir = path.join(__dirname, '../' + process.env.LOG_PATH); // Set the logs directory based on LOG_PATH from .env
-const logFilePath = path.join(logsDir, process.env.LOG_FILE + '.log'); // Set the log file name based on LOG_FILE from .env
+// Define the log file with the current timestamp in the title
+const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Format timestamp and replace unsupported characters
+const logFilePath = path.join(logsDir, `${process.env.LOG_FILE}_${timestamp}.log`); // Set the log file name using LOG_FILE from .env with timestamp appended
 // Ensure the logs directory exists
 if (!fs.existsSync(logsDir)) {
     fs.mkdirSync(logsDir, { recursive: true }); // Create the logs directory if it doesn't exist
@@ -111,7 +112,7 @@ client.on("guildMemberAdd", async (member) => {
         
         // Logging
         if (botlogsChannel) {
-              // Send a log message in the botlogsChannel that a user has joined the guild
+            // Send a log message in the botlogsChannel that a user has joined the guild
             botlogsChannel.send(`<@${member.user.id}> - \`UID: ${member.user.id}\`\nhas joined the server with welcome message #${welcomeMessageIndex}`);
             // Log the user joining event locally with the welcome message index
             // Log event locally
