@@ -18,7 +18,7 @@ ToastBot is currently being hosted by our friends at [Nodium Hosting](https://no
 
 ### Prerequisites
 
-- "Presence Update Events", "GUILD_MEMBERS, and "Message Contents" **must** be enabled for your bot through the [Discord Developer Portal](https://discord.com/developers/applications).
+- "Presence Update Events", "GUILD_MEMBERS", and "Message Contents" **must** be enabled for your bot through the [Discord Developer Portal](https://discord.com/developers/applications).
 
 ### Getting Started
 
