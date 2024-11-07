@@ -1,10 +1,10 @@
-# Use Node.js v16.11.0 or higher as the base image
-FROM node:16.11.0
+# Use Node.js v22 LTS with Alpine as the base image
+FROM node:22-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the package.json and package-lock.json (if present)
+# Copy only the package.json and package-lock.json first to leverage Docker cache
 COPY package*.json ./
 
 # Install dependencies
@@ -13,5 +13,5 @@ RUN npm install
 # Copy the rest of your application files
 COPY . .
 
-# Command to run your bot
-CMD ["node", "src/toastbot.js"]
+# Run npm update each time the container is started to ensure dependencies are up to date
+CMD npm install && node src/toastbot.js
