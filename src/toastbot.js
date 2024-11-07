@@ -10,20 +10,32 @@ const Discord = require('discord.js'); // Import the 'discord.js' module for int
 require('dotenv').config();
 
 // Logging
-// Define the logs directory and log file path based on environment variables
-const logsDir = path.join(__dirname, '../' + process.env.LOG_PATH); // Set the logs directory based on LOG_PATH from .env
-// Define the log file with the current timestamp in the title
-const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Format timestamp and replace unsupported characters
-const logFilePath = path.join(logsDir, `${process.env.LOG_FILE}_${timestamp}.log`); // Set the log file name using LOG_FILE from .env with timestamp appended
-// Ensure the logs directory exists
+// Define the logs directory and ensure it exists
+const logsDir = path.join(__dirname, '../' + process.env.LOG_PATH);
 if (!fs.existsSync(logsDir)) {
-    fs.mkdirSync(logsDir, { recursive: true }); // Create the logs directory if it doesn't exist
+    fs.mkdirSync(logsDir, { recursive: true });
 }
+// Function to generate the log file path based on the current date
+function getLogFilePath() {
+    const date = new Date().toISOString().split('T')[0]; // Format date as YYYY-MM-DD
+    return path.join(logsDir, `${process.env.LOG_FILE}_${date}.log`); // Use the date in the log file name
+}
+// Initialize log file path
+let logFilePath = getLogFilePath();
 // Function to write to the log file
 function writeLog(message) {
-    const logMessage = `[${new Date().toLocaleString()}] - ${message}\n`; // Prefix [date] at the beginning of log entry, followed by the message
-    fs.appendFileSync(logFilePath, logMessage, 'utf8'); // Append new entries to the log file with UTF-8 encoding
+    const logMessage = `[${new Date().toLocaleString()}] - ${message}\n`;
+    fs.appendFileSync(logFilePath, logMessage, 'utf8');
 }
+// Function to check if the date has changed, and update log file if it has
+function updateLogFilePathDaily() {
+    const currentDate = new Date().toISOString().split('T')[0];
+    if (!logFilePath.includes(currentDate)) {
+        logFilePath = getLogFilePath(); // Update the log file path to the new day's file
+    }
+}
+// Set an interval to check for date change every minute
+setInterval(updateLogFilePathDaily, 60 * 1000); // Checks every 1 minute
 
 // Create a new Discord client instance with select intents
 const client = new Discord.Client({
@@ -157,7 +169,7 @@ client.on('messageCreate', (message) => {
         // Format message content to make multiline messages more readable
         const messageContent = message.content
             ? message.content.replace(/\n/g, '\\n') // Replace newlines with visible \n
-            : "<No Content>"; // Use a placeholder if message.content is empty
+            : "<No Content or Media File>"; // Use a placeholder if message.content is empty
 
         // Logging
         // Log the event locally
