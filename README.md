@@ -10,10 +10,6 @@ New members will receive a unique welcome message in the specified welcome chann
 
 ToastBot was originally developed by *Toasted Den* in 2021, with significant contributions from *sydneyn3308*. Special thanks to *Belt_Buckle*, *eitanshaul*, *walterblack5*, *kindman_*, *jarr012*, and others for their help with beta testing.
 
-## Hosting
-
-ToastBot is currently being hosted by our friends at [Nodium Hosting](https://nodiumhosting.com).
-
 ## Self-hosting
 
 ### Prerequisites
@@ -25,7 +21,7 @@ ToastBot is currently being hosted by our friends at [Nodium Hosting](https://no
 #### Running ToastBot with **Node.js**
 
 Ensure you have the following installed:
-- [Node.js](https://nodejs.org/en/download/package-manager/current) (v16.11.0 or higher)
+- [Node.js](https://nodejs.org/en/download/package-manager/current) (v16.11.0 or higher, we use v22 LTS)
 
 1. **Clone the repository:**
     ```bash
@@ -38,7 +34,7 @@ Ensure you have the following installed:
     npm install
     ```
 
-3. **Edit the `.env.example` file** with your guild's channel info, logging details, and bot token from the [Discord Developer Portal](https://discord.com/developers/applications). For detailed descriptions of each environment variable, refer to the comments within the `.env.example` file.
+3. **Edit the** `.env.example` **file** with your guild's channel info, logging details, and bot token from the [Discord Developer Portal](https://discord.com/developers/applications). For detailed descriptions of each environment variable, refer to the comments within the `.env.example` file.
     ```
     TOKEN=your_discord_bot_token
     ```
