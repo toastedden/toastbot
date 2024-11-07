@@ -5,6 +5,5 @@ services:
       - TZ=Etc/UTC
     build: . # Build the Docker image from the current directory
     volumes:
-      - .:/app # Mount the current directory to /app in the container
-      - /app/node_modules # Ensure node_modules is not overwritten
+      - ./logs:/app/logs # Map the logs folder on the host to the /app/logs in the container
     restart: unless-stopped # Restart the container unless it is explicitly stopped
