@@ -25,8 +25,8 @@ Ensure you have the following installed:
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/toastedden/ToastBot.git
-    cd ToastBot
+    git clone https://github.com/toastedden/toastbot.git
+    cd toastbot
     ```
 
 2. **Install dependencies:**
@@ -50,11 +50,11 @@ Ensure **Docker Engine** and **Docker Compose** are [installed on your system](h
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/toastedden/ToastBot.git
-    cd ToastBot
+    git clone https://github.com/toastedden/toastbot.git
+    cd toastbot
     ```
 
-2. **Edit the `.env.example` file** with your guild's channel info, logging details, and bot token from the [Discord Developer Portal](https://discord.com/developers/applications). For detailed descriptions of each environment variable, refer to the comments within the `.env.example` file.
+2. **Edit the** `.env.example` **file** with your guild's channel info, logging details, and bot token from the [Discord Developer Portal](https://discord.com/developers/applications). For detailed descriptions of each environment variable, refer to the comments within the `.env.example` file.
     ```
     TOKEN=your_discord_bot_token
     ```
