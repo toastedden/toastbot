@@ -1,14 +1,14 @@
 # ToastBot
 
-ToastBot is a lightweight Discord bot designed exclusively for the [Toasted's Den Discord server](https://discord.gg/vWE9vt5j7B).
+**ToastBot** is a lightweight Discord bot designed exclusively for the [Toasted's Den Discord server](https://discord.gg/vWE9vt5j7B).
 
-This repository contains the streamlined source code for ToastBot, now operating in read-only mode. Commands, experimental features, and unused packages have been removed for simplicity.
+This repository contains the streamlined source code for **ToastBot**, now operating in read-only mode. Commands, experimental features, and unused packages have been removed for simplicity.
 
 New members will receive a unique welcome message in the specified welcome channel. Join, Leave, and Message Delete events are logged in the designated logs channel and a local log file located in `./logs`. Both the welcome channel and log settings are configured in the `.env` file.
 
 ## Development
 
-ToastBot was originally developed by *Toasted Den* in 2021, with significant contributions from *sydneyn3308*. Special thanks to *Belt_Buckle*, *eitanshaul*, *walterblack5*, *kindman_*, *jarr012*, and others for their help with beta testing.
+**ToastBot** was originally developed by [*Toasted Den*](https://github.com/toastedden) in 2021, with significant contributions from [*sydneyn3308*](https://github.com/Sydney3308). Special thanks to *Belt_Buckle*, [*eitanshaul*](https://github.com/TheSlicingSword), *walterblack5*, *kindman_*, *jarr012*, and others for their help with beta testing.
 
 ## Self-hosting
 
@@ -64,9 +64,9 @@ Ensure **Docker Engine** and **Docker Compose** are [installed on your system](h
     docker compose up --build -d
     ```
 
-This will build the Docker image, install dependencies, and run the bot inside a Docker container named `ToastBot`.
+This will build the Docker image, install dependencies, and run the bot inside a Docker container named `toastbot`.
 
 
 ## Contributing
 
-Pull requests are welcome, though ToastBot is currently quite minimal and may not need many additional features.
+Pull requests are welcome, though **ToastBot** is currently quite minimal and may not need many additional features.

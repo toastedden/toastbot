@@ -1,9 +1,10 @@
 services:
   toastbot:
-    container_name: ToastBot # Name of the container
+    container_name: toastbot # Name of the container
     environment:
       - TZ=Etc/UTC
     build: . # Build the Docker image from the current directory
     volumes:
+      - ./data:/app/data
       - ./logs:/app/logs # Map the logs folder on the host to the /app/logs in the container
     restart: unless-stopped # Restart the container unless it is explicitly stopped

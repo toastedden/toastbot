@@ -130,4 +130,4 @@ dist
 .pnp.*
 
 # Photoshop file
-.psd
+*.psd
