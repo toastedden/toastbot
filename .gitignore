@@ -131,3 +131,9 @@ dist
 
 # Photoshop file
 *.psd
+
+# Ignore folder for testing files
+ignore
+
+# Passphrases file
+passphrases.txt
