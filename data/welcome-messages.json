@@ -6,11 +6,11 @@
       "Great Scott! It's <@{{user_id}}>!",
       "We've been expecting you <@{{user_id}}>...",
       "Took you long enough <@{{user_id}}>...",
-      "You finally arrived <@{{user_id}}>. ",
+      "You finally arrived <@{{user_id}}>!",
       "Make yourself at home <@{{user_id}}>.",
       "Stay a while <@{{user_id}}>.",
       "Wake the fuck up <@{{user_id}}>, we got a city to burn!",
-      "You've made it <@{{user_id}}>.",
+      "You've made it <@{{user_id}}>!",
       "<@{{user_id}}> has entered the server.",
       "Have you ever wondered why we're here <@{{user_id}}>?",
       "<@{{user_id}}> you've made it to safety, your soul will not be harvested tonight.",
@@ -18,7 +18,7 @@
       "Hit the deck, it's <@{{user_id}}>!",
       "Somebody get <@{{user_id}}> a drink!",
       "<@{{user_id}}> just appeared through a slipspace portal.",
-      "Good to see you, <@{{user_id}}>.",
+      "Good to see you, <@{{user_id}}>!",
       "<@{{user_id}}> dug straight down and landed in the server.",
       "Paint me yellow and call me sunshine, it's <@{{user_id}}>!",
       "Hey <@{{user_id}}>, you're finally awake. You were trying to cross the border, right?",
@@ -26,11 +26,12 @@
       "Welcome <@{{user_id}}>, stay awhile.",
       "Hello, friend <@{{user_id}}>.",
       "I need your clothes, your boots, and your motorcycle <@{{user_id}}>. ",
-      "The Fog is coming, <@{{user_id}}}...",
+      "The Fog is coming, <@{{user_id}}>...",
       "Back there <@{{user_id}}>",
       "Well I'll be a sonofabitch, <@{{user_id}}> is here!",
       "Please enjoy each server channel equally, <@{{user_id}}>.",
-      "<@{{user_id}}> has found us..."
+      "<@{{user_id}}> has found us...",
+      "<@{{user_id}}>, in the flesh?"
     ]
   }
   
