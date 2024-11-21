@@ -49,7 +49,8 @@ while True:
                 os.remove(log_file_path)
                 print(f"Removed archived log file: {log_file_path}")
         else:
-            print(f"No log files found for {last_month.strftime('%B %Y')}. Skipping archive creation.")
+            print(f"No log files found for {last_month.strftime('%B %Y')}. Breaking loop.")
+            break  # Break the loop if no logs found for the current month being checked.
 
     # Stop if last month is before the first log file's date
     if last_month.year < today.year - 1 or (last_month.year == today.year - 1 and last_month.month == 1):
