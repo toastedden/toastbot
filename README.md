@@ -6,6 +6,8 @@ This repository contains the streamlined source code for **ToastBot**, now opera
 
 New members will receive a unique welcome message in the specified welcome channel. Join, Leave, and Message Delete events are logged in the designated logs channel and a local log file located in `./logs`. Both the welcome channel and log settings are configured in the `.env` file.
 
+Docker Compose users can also spin up a web server for viewing, downlaoding, and sharing log files. See Web Server for details
+
 ## Development
 
 **ToastBot** was originally developed by [*Toasted Den*](https://github.com/toastedden) in 2021, with significant contributions from [*sydneyn3308*](https://github.com/Sydney3308). Special thanks to *Belt_Buckle*, [*eitanshaul*](https://github.com/TheSlicingSword), *walterblack5*, *kindman_*, *jarr012*, and others for their help with beta testing.
@@ -64,8 +66,48 @@ Ensure **Docker Engine** and **Docker Compose** are [installed on your system](h
     docker compose up --build -d
     ```
 
-This will build the Docker image, install dependencies, and run the bot inside a Docker container named `toastbot`.
+This will build the `toastbot` and `toastbot-web-server` Docker image(s), install dependencies, and run the bot alongside the web server.
 
+You can disable the web server by simply commenting out the service in the `docker-compose.yaml` file.
+
+By default, the web server will be availible at [localhost:9000](http://localhost:9000). Your login information can be found in the `.env`.
+
+#### Securing the web server
+
+Before exposing the web server to the internet, we strongly recommend running `passwd_gen.py` to generate a strong password for the web server.
+
+You can increase strength of the generated password by adding your own passphrases to `passphrases.txt`.
+
+By default, we use `100000` password iterations. You can run `passwd_gen_benchmark.py` to benchmark your hosts efficiency. Aim for whichever value is closest to ~1s of compute time.
+
+## ToastBot Configuration
+
+Most configuration is done in the `.env` file. See it's comments for more information.
+
+You can also edit the following files in `./data`.
+- `passphrases.txt` - Allows you to edit the input passphrases for `generate_server_password.py` to use when creating the web server password.
+- `set-rich-presence.json` - Can be used to edit **ToastBot's** rich presence on-the-fly. It will refresh every 60 seconds.
+- `welcome-messages.json` - Is used for laying out the welcome messages for **ToastBot** to use.
+
+
+## Logging and Archives
+
+#### Logs
+
+By default, **ToastBot** logs are created in `./logs`. This can be edited in the `env` file but is highly discouraged.
+
+The web server also creates it's own log files in `./web_server/logs`.
+
+#### Archiving
+
+We have a convenient python script that will add all your log files for the previous month(s) into a `.tar.gz` file.
+
+Run it using
+```bash
+python3 logs_to_tar.py
+```
+
+The script will then create `./logs/archives` and add all previous months `.log` files into `{MONTH}-{YEAR} Log Files.tar.gz` for archiving.
 
 ## Contributing
 
