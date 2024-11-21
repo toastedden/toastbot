@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2048 728">
+  <defs>
+    <style>
+      .cls-1 {
+        letter-spacing: -.03em;
+      }
+
+      .cls-2 {
+        fill: #dcdcdc;
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        stroke-width: 0px;
+      }
+
+      .cls-3 {
+        fill: none;
+      }
+
+      .cls-5 {
+        font-family: Gilroy-Black, Gilroy;
+        font-size: 99.56px;
+        font-weight: 800;
+      }
+
+      .cls-5, .cls-4 {
+        fill: #d2d2d2;
+      }
+
+      .cls-6 {
+        letter-spacing: 0em;
+      }
+
+      .cls-7 {
+        clip-path: url(#clippath);
+      }
+
+      .cls-8 {
+        letter-spacing: 0em;
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="cls-3" width="2048" height="728"/>
+    </clipPath>
+  </defs>
+  <g class="cls-7">
+    <rect class="cls-2" x="-110.2" y="-52.75" width="2319.56" height="818.67"/>
+    <text class="cls-5" transform="translate(104.57 718)"><tspan x="0" y="0">i m</tspan><tspan class="cls-8" x="133.5" y="0">i</tspan><tspan class="cls-1" x="159.29" y="0">s</tspan><tspan x="203.59" y="0">s </tspan><tspan class="cls-6" x="273.47" y="0">h</tspan><tspan x="331.02" y="0">er</tspan></text>
+    <polygon class="cls-4" points="1623.22 374.78 1624.05 375.61 1835.45 164.21 1873.78 202.54 2093.56 -17.24 1972.93 -137.86 1623.22 211.85 1623.22 374.78"/>
+    <polygon class="cls-4" points="1595.08 166.84 1269.91 491.83 1418.7 491.83 1595.08 315.55 1595.08 166.84"/>
+    <polygon class="cls-4" points="1520.74 419.15 1166.14 773.57 1246.15 853.62 1520.74 579.17 1520.74 419.15"/>
+  </g>
+</svg>
