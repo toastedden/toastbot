@@ -1,0 +1,10 @@
+Put your passphrases in this file, one on each line.
+Remember to rename this file to "passphrases.txt" and remove this guide text.
+-
+Example passphrases: (One passphrases per-line)
+-
+Paint me yellow and call me fucking Sunshine!
+How can you have any pudding if you don't eat your meat?
+Just a half a mile from the railroad track.
+Where is Jessica Hyde?
+I can't see my forehead.

@@ -8,3 +8,16 @@ services:
       - ./data:/app/data
       - ./logs:/app/logs # Map the logs folder on the host to the /app/logs in the container
     restart: unless-stopped # Restart the container unless it is explicitly stopped
+
+  toastbot-web-server:
+    container_name: toastbot-web-server
+    build: ./web_server
+    ports:
+      - "${HTTP_PORT}:9000" # Uses the HTTP_PORT variable from .env
+    volumes:
+      - ./logs:/app/logs
+      - ./web_server/logs:/app/web_server_logs
+    environment:
+      - HTTP_USERNAME=${HTTP_USERNAME} # Uses HTTP_USERNAME from .env
+      - HTTP_PASSWORD=${HTTP_PASSWORD} # Uses HTTP_PASSWORD from .env
+    restart: unless-stopped
