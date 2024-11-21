@@ -104,7 +104,7 @@ client.once('ready', async () => {
 
     // Log bot startup event locally
     const logMessage = `STARTUP - ToastBot is online (v${process.env.VERSION})`;
-    console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log to console with timestamp
+    console.log(`${logMessage}`); // Log to console
     writeLog(logMessage); // Log to file
 
     // TODO: Implement older message fetch functionality
@@ -142,11 +142,26 @@ client.on("guildMemberAdd", async (member) => {
 
         // Log the member join event in the bot logs channel, if available
         if (botlogsChannel) {
-            botlogsChannel.send(`<@${member.user.id}> - \`UID: ${member.user.id}\`\nhas joined the server with welcome message #${randomIndex}`);
+            // Create Discord embed for member join
+            const embed = {
+                color: 0x00ff00, // Green color for joins
+                author: {
+                    name: `Member Joined`,
+                    icon_url: member.user.avatarURL()
+                },
+                description: `**Username:** <@${member.user.id}>\n**User ID:** ${member.user.id}\n**Welcome Message:** #${randomIndex}`,
+                footer: {
+                    text: `Account Created: ${member.user.createdAt.toLocaleString()}`
+                },
+                timestamp: new Date()
+            };
+
+            // Send embed to the logs channel
+            await botlogsChannel.send({ embeds: [embed] });
             
             // Log the join event with username, UID, and message index
             const logMessage = `MEMBER_JOINED - User: ${member.user.username} (UID: ${member.user.id}) has joined the server with welcome message #${randomIndex}`;
-            console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Log to console
+            console.log(logMessage);
             writeLog(logMessage); // Write to log file
         }
     }
@@ -159,12 +174,26 @@ client.on('guildMemberRemove', async (member) => {
 
     // Log the member leave event if the bot logs channel is accessible
     if (botlogsChannel) {
-        // Notify the bot logs channel that the user has left the server
-        botlogsChannel.send(`**${member.user.username}** - \`UID: ${member.user.id}\`\nhas left the server.`);
+        // Create Discord embed for member leave
+        const embed = {
+            color: 0xff0000, // Red color for leaves
+            author: {
+                name: `Member Left`,
+                icon_url: member.user.avatarURL()
+            },
+            description: `**Username:** ${member.user.username}\n**User ID:** ${member.user.id}`,
+            footer: {
+                text: `Account Created: ${member.user.createdAt.toLocaleString()}`
+            },
+            timestamp: new Date()
+        };
+
+        // Send embed to the logs channel
+        await botlogsChannel.send({ embeds: [embed] });
         
         // Define and log the event details locally
         const logMessage = `MEMBER_LEFT - User: ${member.user.username} (UID: ${member.user.id}) has left the server`;
-        console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Output to console with timestamp
+        console.log(`${logMessage}`); // Output to console with timestamp
         writeLog(logMessage); // Append the log entry to the log file
     }
 });
@@ -186,27 +215,60 @@ client.on('messageCreate', (message) => {
 
 // Event handler for when a message is deleted in the guild
 client.on('messageDelete', async (message) => {
-    // Fetch the bot logs channel from the environment variable BOT_LOGS_CHANNEL
-    const botlogsChannel = await message.guild.channels.fetch(process.env.BOT_LOGS_CHANNEL);
+    try {
+        if (message.author?.bot) return;
 
-    // Check that the message is from the specified guild and not sent by a bot
-    if (message.guild.id === process.env.GUILD_ID && !message.author.bot) {
-        // Format message content, replacing newlines with '\\n', or use a placeholder if content is empty
+        const botlogsChannel = await message.guild.channels.fetch(process.env.BOT_LOGS_CHANNEL);
+        if (!botlogsChannel) return;
+
         const messageContent = message.content
             ? message.content.replace(/\n/g, '\\n')
-            : "<No Content>"; // Placeholder for messages with no text
+            : "*No Content or Media File*";
 
-        // Logging
-        // Ensure the bot logs channel is valid before sending a log message
-        if (botlogsChannel) {
-            // Send a message to the bot logs channel indicating that a user deleted a message
-            botlogsChannel.send(`<@${message.author.id}> - \`UID: ${message.author.id}\`\nhas deleted a message in <#${message.channel.id}>.\n\`\`\`${messageContent}\`\`\``);
-            
-            // Log the deletion event locally with message details
-            const logMessage = `MESSAGE_DELETED - User: ${message.author.username} (UID: ${message.author.id}) - Channel: #${message.channel.id} - "${messageContent}"`;
-            console.log(`[${new Date().toLocaleString()}] - ${logMessage}`); // Output log to console
-            writeLog(logMessage); // Append the log entry to the log file
+        const fetchedLogs = await message.guild.fetchAuditLogs({
+            limit: 1,
+            type: 'MESSAGE_DELETE',
+        });
+
+        const deletionLog = fetchedLogs.entries.first();
+        let deleter = null;
+
+        if (deletionLog) {
+            const { executor, target, createdTimestamp } = deletionLog;
+            if (target.id === message.author.id && 
+                Date.now() - createdTimestamp < 5000) {
+                deleter = executor;
+            }
         }
+
+        // Log message format fixed to not include timestamp
+        const logMessage = deleter
+            ? `MESSAGE_DELETED - Message Author: ${message.author.username} (UID: ${message.author.id}) - Deleted By: ${deleter.username} (UID: ${deleter.id}) - Channel: #${message.channel.id} - Content: "${messageContent}"`
+            : `MESSAGE_DELETED - Message Author: ${message.author.username} (UID: ${message.author.id}) - Self Deleted - Channel: #${message.channel.id} - Content: "${messageContent}"`;
+
+        console.log(logMessage);
+        writeLog(logMessage); // writeLog function will add the timestamp
+
+        const embed = {
+            color: 0xFF6600,
+            author: {
+                name: deleter 
+                    ? `Message Deleted by ${deleter.username}` 
+                    : 'Message Self-Deleted',
+                icon_url: deleter?.avatarURL() || message.author.avatarURL()
+            },
+            description: `**Message Author:** <@${message.author.id}>\n**Message Author ID:** ${message.author.id}\n**Channel:** <#${message.channel.id}>\n**Channel ID:** ${message.channel.id}\n**Message Content:**\n${messageContent}`,
+            footer: {
+               text: deleter ? `Deleted by ${deleter.username} (${deleter.id})` : 'Self-Deleted'
+            },
+            timestamp: new Date()
+        };
+
+        await botlogsChannel.send({ embeds: [embed] });
+
+    } catch (err) {
+        console.error('Error handling message deletion:', err);
+        writeLog(`Error in messageDelete event: ${err.message}\n${err.stack}`);
     }
 });
 
