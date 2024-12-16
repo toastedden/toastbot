@@ -2,10 +2,12 @@ import os
 import tarfile
 import datetime
 import re
+import shutil
 
 # Directory paths
 logs_dir = './logs'
 archives_dir = os.path.join(logs_dir, 'archives')
+backup_dir = '/mnt/toastbot-backups'
 
 # Step 1: Check and create directories if needed
 os.makedirs(archives_dir, exist_ok=True)
@@ -21,7 +23,7 @@ while True:
     
     # Archive filename based on the previous month
     archive_filename = os.path.join(archives_dir, f"{last_month.strftime('%B-%Y')} Log Files.tar.gz")
-
+    
     # Skip if archive already exists
     if os.path.exists(archive_filename):
         print(f"Archive for {last_month.strftime('%B %Y')} already exists. Skipping.")
@@ -31,7 +33,7 @@ while True:
             f for f in os.listdir(logs_dir)
             if re.match(rf".*_{last_month_str}-\d{{2}}\.log$", f)
         ]
-
+        
         # Only create an archive if there are log files for the month
         if log_files:
             with tarfile.open(archive_filename, "w:gz") as archive:
@@ -40,18 +42,28 @@ while True:
                     log_file_path = os.path.join(logs_dir, log_file)
                     print(f"Adding {log_file_path} to archive.")
                     archive.add(log_file_path, arcname=log_file)
-
             print("Archive created successfully.")
-
+            
+            # Copy to backup location if it exists
+            if os.path.exists(backup_dir):
+                try:
+                    shutil.copy2(archive_filename, backup_dir)
+                    print(f"Copied archive to backup location: {backup_dir}")
+                except Exception as e:
+                    print(f"Failed to copy to backup location: {e}")
+            
             # Step 4: Remove the archived log files
             for log_file in log_files:
                 log_file_path = os.path.join(logs_dir, log_file)
-                os.remove(log_file_path)
-                print(f"Removed archived log file: {log_file_path}")
+                try:
+                    os.remove(log_file_path)
+                    print(f"Removed archived log file: {log_file_path}")
+                except Exception as e:
+                    print(f"Failed to remove log file {log_file_path}: {e}")
         else:
             print(f"No log files found for {last_month.strftime('%B %Y')}. Breaking loop.")
             break  # Break the loop if no logs found for the current month being checked.
-
+    
     # Stop if last month is before the first log file's date
     if last_month.year < today.year - 1 or (last_month.year == today.year - 1 and last_month.month == 1):
         break
