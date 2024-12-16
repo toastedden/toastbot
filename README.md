@@ -70,7 +70,7 @@ This will build the `toastbot` and `toastbot-web-server` Docker image(s), instal
 
 You can disable the web server by simply commenting out the service in the `docker-compose.yaml` file.
 
-By default, the web server will be availible at [localhost:9000](http://localhost:9000). Your login information can be found in the `.env`.
+By default, the web server will be availible at [localhost:3001](http://localhost:3001). Your login information can be found in the `.env` file.
 
 #### Securing the web server
 
@@ -82,10 +82,10 @@ By default, we use `100000` password iterations. You can run `passwd_gen_benchma
 
 ## ToastBot Configuration
 
-Most configuration is done in the `.env` file. See it's comments for more information.
+Most configuration is done in the `.env.example` file. See it's comments for more information.
 
 You can also edit the following files in `./data`.
-- `passphrases.txt` - Allows you to edit the input passphrases for `generate_server_password.py` to use when creating the web server password.
+- `passphrases.txt` - Allows you to edit the input passphrases for `passwd_gen.py` to use when creating the web server password.
 - `set-rich-presence.json` - Can be used to edit **ToastBot's** rich presence on-the-fly. It will refresh every 60 seconds.
 - `welcome-messages.json` - Is used for laying out the welcome messages for **ToastBot** to use.
 
@@ -108,6 +108,50 @@ python3 logs_to_tar.py
 ```
 
 The script will then create `./logs/archives` and add all previous months `.log` files into `{MONTH}-{YEAR} Log Files.tar.gz` for archiving.
+
+If `/mnt/toastbot-backups` directory exists, a copy will also be made there.
+
+## TODO:
+
+- [x] Streamline and optimize ToastBot source code
+
+- [x] Use asyncronus funtcions
+
+- [x] Create logging system
+
+- [x] Dockerize ToastBot for easy deplyment
+
+- [x] Make ToastBot universal with editable .env
+
+- [ ] Re-organize directory layout
+
+- [x] Acccess `./logs` outside of discord on a static HTTP site with basic auth
+
+- [x] Dockerize HTTP site alongside ToastBot
+
+- [x] Allow rich presence to be updated dynamically with JSON
+
+- [x] Allow welcome messages to be updated dynamically with JSON
+
+- [x] Add log files to a tarball to clean directory and save on disk space
+
+- [ ] Add log files to a zip file to clean directory and save on disk space
+
+- [ ] Combine zip and tar archiver script into one
+
+- [ ] Automate archiver script in the container
+
+- [ ] Edit JSON data over HTTP server
+
+- [ ] Refresh HTTP server password weekly/ monthly and send it to #bot-logs
+
+- [ ] Log aditional events in the server
+
+- [ ] Create giveaway system
+
+- [ ] Add/ remove role(s) with message reactions
+
+- [ ] Move event listeners to dedicated JS files to clean up entrypoint file
 
 ## Contributing
 
