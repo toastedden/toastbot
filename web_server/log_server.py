@@ -236,7 +236,7 @@ class CustomHandler(SimpleHTTPRequestHandler):
                     </ul>   
                     <hr>
                     <footer>
-                        <p>Web Server Version 1.0.0 - <a href="https://github.com/toastedden/toastbotr" target="_blank" title="Source">Source</a></p>
+                        <p>Web Server Version 1.0.0 - <a href="https://github.com/toastedden/toastbot" target="_blank" title="Source">Source</a></p>
                     </footer>
                 </div>
             </body>
