@@ -56,7 +56,6 @@ PASSWORD = os.getenv("HTTP_PASSWORD", "password")
 # Encode the username and password in Base64 for Basic Auth comparison
 AUTH_STRING = b64encode(f"{USERNAME}:{PASSWORD}".encode()).decode()
 
-
 class CustomHandler(SimpleHTTPRequestHandler):
     """
     Custom HTTP handler to provide basic authentication
@@ -252,7 +251,6 @@ class CustomHandler(SimpleHTTPRequestHandler):
         self.wfile.write(encoded)
 
         return None
-
 
 if __name__ == "__main__":
     # Define the server address and port
