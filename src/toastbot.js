@@ -149,7 +149,7 @@ client.on("guildMemberAdd", async (member) => {
                     name: `Member Joined`,
                     icon_url: member.user.avatarURL()
                 },
-                description: `**Username:** <@${member.user.id}>\n**User ID:** ${member.user.id}\n**Welcome Message:** #${randomIndex}`,
+                description: `**Username:** ${member.user.username}\n**User ID:** ${member.user.id}\n**Welcome Message:** #${randomIndex}`,
                 footer: {
                     text: `Account Created: ${member.user.createdAt.toLocaleString()}`
                 },
